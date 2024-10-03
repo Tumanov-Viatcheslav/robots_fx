@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Queue;
 
 public class Robot {
-    private Direction direction = Direction.NORTH;
     private IntegerProperty x = new SimpleIntegerProperty();
     private IntegerProperty y = new SimpleIntegerProperty();
     private Property<Direction> directionProperty = new SimpleObjectProperty<>(Direction.NORTH);
@@ -23,11 +22,25 @@ public class Robot {
     public Robot() {
     }
 
+    public Robot(int x) {
+        setX(x);
+    }
+
+    public Robot(int x, int y) {
+        setX(x);
+        setY(y);
+    }
+
+    public Robot(int x, int y, Direction direction) {
+        setX(x);
+        setY(y);
+        setDirection(direction);
+    }
+
     public Robot(int x, int y, Direction direction, String commands) {
         setX(x);
         setY(y);
         setDirection(direction);
-        directionProperty.setValue(direction);
         this.inputProgram(commands);
     }
 
@@ -159,7 +172,25 @@ public class Robot {
             String line;
             while ((line = input.readLine()) != null) {
                 String[] robotStr = line.split(";");
-                robots.add(new Robot(Integer.parseInt(robotStr[0]), Integer.parseInt(robotStr[1]), Direction.valueOf(robotStr[2]), robotStr[3]));
+                switch (robotStr.length) {
+                    case 0:
+                        robots.add(new Robot());
+                        break;
+                    case 1:
+                        robots.add(new Robot(Integer.parseInt(robotStr[0])));
+                        break;
+                    case 2:
+                        robots.add(new Robot(Integer.parseInt(robotStr[0]), Integer.parseInt(robotStr[1])));
+                        break;
+                    case 3:
+                        robots.add(new Robot(Integer.parseInt(robotStr[0]), Integer.parseInt(robotStr[1]), Direction.valueOf(robotStr[2])));
+                        break;
+                    case 4:
+                        robots.add(new Robot(Integer.parseInt(robotStr[0]), Integer.parseInt(robotStr[1]), Direction.valueOf(robotStr[2]), robotStr[3]));
+                }
+                if (robotStr.length == 3)
+                    robots.add(new Robot(Integer.parseInt(robotStr[0]), Integer.parseInt(robotStr[1]), Direction.valueOf(robotStr[2])));
+                else robots.add(new Robot(Integer.parseInt(robotStr[0]), Integer.parseInt(robotStr[1]), Direction.valueOf(robotStr[2]), robotStr[3]));
             }
         } catch (IOException ex) {
             System.out.println(ex.getMessage());

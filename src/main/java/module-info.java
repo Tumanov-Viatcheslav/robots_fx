@@ -5,4 +5,5 @@ module org.robots.robots_fx {
 
     opens org.robots.robots_fx to javafx.fxml;
     exports org.robots.robots_fx;
+    exports org.robots.robots_fx.robot;
 }
