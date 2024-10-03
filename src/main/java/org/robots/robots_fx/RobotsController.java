@@ -2,6 +2,7 @@ package org.robots.robots_fx;
 
 import javafx.animation.AnimationTimer;
 import javafx.beans.Observable;
+import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -9,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.AnchorPane;
+import javafx.util.StringConverter;
 import org.robots.robots_fx.robot.Robot;
 import org.robots.robots_fx.robot.RobotView;
 
@@ -46,6 +48,8 @@ public class RobotsController {
     @FXML
     public Label instructionText;
     @FXML
+    public Label labelFPS;
+    @FXML
     public Button button;
     @FXML
     public Slider FPSSlider;
@@ -80,6 +84,7 @@ public class RobotsController {
             robotViews[i].xProperty().bind(robots[i].xProperty().multiply(STEP).add(X_TRANSITION));
             robotViews[i].yProperty().bind(robots[i].yProperty().multiply(-1).multiply(STEP).add(Y_TRANSITION));
             robotViews[i].directionProperty.bind(robots[i].getDirectionProperty());
+            labelFPS.textProperty().bind(FPSSlider.valueProperty().asString().concat(" FPS"));
         }
         FPSSlider.setValue(3);
         FPSSlider.valueProperty().addListener((obs, oldval, newVal) ->
