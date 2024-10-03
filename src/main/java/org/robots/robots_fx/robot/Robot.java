@@ -1,7 +1,9 @@
 package org.robots.robots_fx.robot;
 
 
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.Property;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.shape.Rectangle;
 
@@ -11,69 +13,94 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-public class Robot extends Rectangle {
+public class Robot {
     private Direction direction = Direction.NORTH;
-    public Property<Direction> directionProperty = new SimpleObjectProperty<>(Direction.NORTH);
+    private IntegerProperty x = new SimpleIntegerProperty();
+    private IntegerProperty y = new SimpleIntegerProperty();
+    private Property<Direction> directionProperty = new SimpleObjectProperty<>(Direction.NORTH);
     private final Queue<Action> commandsToDo = new LinkedList<>();
 
     public Robot() {
-        super(0, 0);
     }
 
     public Robot(int x, int y, Direction direction, String commands) {
-        super(x, y, 10, 10);
-        setVisible(false);
-        this.direction = direction;
+        setX(x);
+        setY(y);
+        setDirection(direction);
         directionProperty.setValue(direction);
         this.inputProgram(commands);
     }
 
+    public Integer getX() {
+        return x.getValue();
+    }
+
+    public IntegerProperty xProperty() {
+        return x;
+    }
+
+    public void setX(Integer x) {
+        this.x.setValue(x);
+    }
+
+    public Integer getY() {
+        return y.getValue();
+    }
+
+    public IntegerProperty yProperty() {
+        return y;
+    }
+
+    public void setY(Integer y) {
+        this.y.setValue(y);
+    }
+
     public Direction getDirection() {
-        return direction;
+        return directionProperty.getValue();
+    }
+
+    public Property<Direction> getDirectionProperty() {
+        return directionProperty;
+    }
+
+    public void setDirection(Direction direction) {
+        directionProperty.setValue(direction);
     }
 
     private void turnLeft() {
-        switch (direction) {
+        switch (getDirection()) {
             case NORTH:
-                direction = Direction.WEST;
-                directionProperty.setValue(direction);
+                setDirection(Direction.WEST);
                 return;
             case WEST:
-                direction = Direction.SOUTH;
-                directionProperty.setValue(direction);
+                setDirection(Direction.SOUTH);
                 return;
             case SOUTH:
-                direction = Direction.EAST;
-                directionProperty.setValue(direction);
+                setDirection(Direction.EAST);
                 return;
             case EAST:
-                direction = Direction.NORTH;
-                directionProperty.setValue(direction);
+                setDirection(Direction.NORTH);
         }
     }
 
     private void turnRight() {
-        switch (direction) {
+        switch (getDirection()) {
             case NORTH:
-                direction = Direction.EAST;
-                directionProperty.setValue(direction);
+                setDirection(Direction.EAST);
                 return;
             case EAST:
-                direction = Direction.SOUTH;
-                directionProperty.setValue(direction);
+                setDirection(Direction.SOUTH);
                 return;
             case SOUTH:
-                direction = Direction.WEST;
-                directionProperty.setValue(direction);
+                setDirection(Direction.WEST);
                 return;
             case WEST:
-                direction = Direction.NORTH;
-                directionProperty.setValue(direction);
+                setDirection(Direction.NORTH);
         }
     }
 
     private void stepForward() {
-        switch (direction) {
+        switch (getDirection()) {
             case NORTH:
                 setY(getY() + 1);
                 return;

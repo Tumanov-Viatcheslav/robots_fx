@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.layout.AnchorPane;
 import org.robots.robots_fx.robot.Robot;
 import org.robots.robots_fx.robot.RobotView;
@@ -16,8 +17,7 @@ import java.util.List;
 public class RobotsController {
     public static final int X_TRANSITION = 500,
             Y_TRANSITION = 300,
-            STEP = 20,
-            FPS = 3;
+            STEP = 20;
 
     boolean isAnimated = false;
 
@@ -33,7 +33,7 @@ public class RobotsController {
                     robot.doAction();
                 return;
             }
-            if ((l - prev) / (1_000_000_000 / FPS) > 0) {
+            if ((l - prev) / (1_000_000_000 / (int) FPSSlider.getValue()) > 0) {
                 for (Robot robot : robots)
                     robot.doAction();
                 prev = l;
@@ -42,11 +42,13 @@ public class RobotsController {
     };
 
     @FXML
+    public AnchorPane pane;
+    @FXML
     public Label instructionText;
     @FXML
     public Button button;
     @FXML
-    public AnchorPane pane;
+    public Slider FPSSlider;
 
     @FXML
     protected void onButtonClick() {
@@ -62,7 +64,6 @@ public class RobotsController {
             robotAnimation.start();
             isAnimated = true;
         }
-
     }
 
     @FXML
@@ -71,7 +72,6 @@ public class RobotsController {
         RobotView[] robotViews = new RobotView[robots.length];
         for (int i = 0; i < robots.length; i++) {
             robotViews[i] = new RobotView();
-            pane.getChildren().add(robots[i]);
             pane.getChildren().add(robotViews[i]);
             int finalI = i;
             robotViews[i].xProperty().addListener((observable, oldValue, newValue) -> robotViews[finalI].changeTriangle(pane.getChildren()));
@@ -79,7 +79,10 @@ public class RobotsController {
             robotViews[i].directionProperty.addListener((observable, oldValue, newValue) -> robotViews[finalI].changeTriangle(pane.getChildren()));
             robotViews[i].xProperty().bind(robots[i].xProperty().multiply(STEP).add(X_TRANSITION));
             robotViews[i].yProperty().bind(robots[i].yProperty().multiply(-1).multiply(STEP).add(Y_TRANSITION));
-            robotViews[i].directionProperty.bind(robots[i].directionProperty);
+            robotViews[i].directionProperty.bind(robots[i].getDirectionProperty());
         }
+        FPSSlider.setValue(3);
+        FPSSlider.valueProperty().addListener((obs, oldval, newVal) ->
+                FPSSlider.setValue(newVal.intValue()));
     }
 }
