@@ -365,6 +365,7 @@ public class TestRobot {
                     new Robot(8, 8, Direction.WEST, "SSSSSRRSLSSSRSSLLSLSLSSRSSLSLLLSSLLSLSLSSRSSLSLLLS"),
                     new Robot(10, 10, Direction.NORTH)
             };
+            Assertions.assertEquals(robotsExpected.length, robots.length);
         }
     }
 }
