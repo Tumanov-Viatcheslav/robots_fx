@@ -72,7 +72,7 @@ public class RobotsController {
 
     @FXML
     protected void initialize() {
-        robots = Robot.readRobots();
+        robots = Robot.readRobots("src/main/resources/org/robots/robots_fx/input.txt");
         RobotView[] robotViews = new RobotView[robots.length];
         for (int i = 0; i < robots.length; i++) {
             robotViews[i] = new RobotView();

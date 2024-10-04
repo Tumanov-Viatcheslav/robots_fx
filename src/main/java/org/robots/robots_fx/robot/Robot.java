@@ -8,6 +8,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.shape.Rectangle;
 
 import java.io.*;
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -166,34 +167,48 @@ public class Robot {
         }
     }
 
-    public static Robot[] readRobots() {
+    public static Robot[] readRobots(String fileName) {
         List<Robot> robots = new ArrayList<>();
-        try(BufferedReader input = new BufferedReader(new FileReader("src/main/resources/org/robots/robots_fx/input.txt"))) {
+        try(BufferedReader input = new BufferedReader(new FileReader(fileName))) {
             String line;
             while ((line = input.readLine()) != null) {
                 String[] robotStr = line.split(";");
-                switch (robotStr.length) {
-                    case 0:
-                        robots.add(new Robot());
-                        break;
-                    case 1:
-                        robots.add(new Robot(Integer.parseInt(robotStr[0])));
-                        break;
-                    case 2:
-                        robots.add(new Robot(Integer.parseInt(robotStr[0]), Integer.parseInt(robotStr[1])));
-                        break;
-                    case 3:
-                        robots.add(new Robot(Integer.parseInt(robotStr[0]), Integer.parseInt(robotStr[1]), Direction.valueOf(robotStr[2])));
-                        break;
-                    case 4:
-                        robots.add(new Robot(Integer.parseInt(robotStr[0]), Integer.parseInt(robotStr[1]), Direction.valueOf(robotStr[2]), robotStr[3]));
+                try {
+                    switch (robotStr.length) {
+                        case 0:
+                            robots.add(new Robot());
+                            break;
+                        case 1:
+                            Integer.parseInt(robotStr[0]);
+                            robots.add(new Robot(Integer.parseInt(robotStr[0])));
+                            break;
+                        case 2:
+                            Integer.parseInt(robotStr[0]);
+                            Integer.parseInt(robotStr[1]);
+                            robots.add(new Robot(Integer.parseInt(robotStr[0]), Integer.parseInt(robotStr[1])));
+                            break;
+                        case 3:
+                            Integer.parseInt(robotStr[0]);
+                            Integer.parseInt(robotStr[1]);
+                            Direction.valueOf(robotStr[2]);
+                            robots.add(new Robot(Integer.parseInt(robotStr[0]), Integer.parseInt(robotStr[1]), Direction.valueOf(robotStr[2])));
+                            break;
+                        case 4:
+                            Integer.parseInt(robotStr[0]);
+                            Integer.parseInt(robotStr[1]);
+                            Direction.valueOf(robotStr[2]);
+                            robots.add(new Robot(Integer.parseInt(robotStr[0]), Integer.parseInt(robotStr[1]), Direction.valueOf(robotStr[2]), robotStr[3]));
+                            break;
+                        default:
+                            throw new InvalidParameterException("Wrong number of robot parameters");
+                    }
                 }
-                if (robotStr.length == 3)
-                    robots.add(new Robot(Integer.parseInt(robotStr[0]), Integer.parseInt(robotStr[1]), Direction.valueOf(robotStr[2])));
-                else robots.add(new Robot(Integer.parseInt(robotStr[0]), Integer.parseInt(robotStr[1]), Direction.valueOf(robotStr[2]), robotStr[3]));
+                catch (Exception ex) {
+                    System.out.println(ex.getClass().getName() + ": " + ex.getMessage());
+                }
             }
         } catch (IOException ex) {
-            System.out.println(ex.getMessage());
+            System.out.println(ex.getClass().getName() + ": " + ex.getMessage());
         }
         return robots.toArray(new Robot[0]);
     }
