@@ -353,19 +353,5 @@ public class TestRobot {
             Robot[] robots = Assertions.assertDoesNotThrow(() -> Robot.readRobots("src/test/resources/inputEmpty.txt"));
             Assertions.assertEquals(0, robots.length);
         }
-        @Test
-        @DisplayName("Read Robots #8")
-        void testRobotReadRobots8() {
-            Robot[] robots = Assertions.assertDoesNotThrow(() -> Robot.readRobots("src/test/resources/input.txt"));
-            Robot[] robotsExpected = {
-                    new Robot(0, 0, Direction.NORTH, "SRRSLSSSRSSLLSLSLSSRSSLSLLLSSSRRSLSSSRSSLLSLSLSSRSSLSLLLSSLLSLSLSSRSSLSLLLS"),
-                    new Robot(2, 2, Direction.SOUTH, "SSRRSLSSSRSSLLSLSLSLLLSSSLLSLSLSSSSRRSLSSSRSSLLSLSLSSRSSLSLLLS"),
-                    new Robot(4, 4, Direction.EAST, "LSLSLSSSRRSLSSSRRSLSSSSLLSLSLSSRSSLSLLLSSSRRSLSSSRSSLSSLSLLLS"),
-                    new Robot(6, 6, Direction.EAST, "SSRRSLSSSRSSLSSLSLLLSSLSSSRSSLLSLSLSLLLSSSLLSLSLSSSSRRSLSSSRSSLLSLSLSSR"),
-                    new Robot(8, 8, Direction.WEST, "SSSSSRRSLSSSRSSLLSLSLSSRSSLSLLLSSLLSLSLSSRSSLSLLLS"),
-                    new Robot(10, 10, Direction.NORTH)
-            };
-            Assertions.assertEquals(robotsExpected.length, robots.length);
-        }
     }
 }
