@@ -1,20 +1,13 @@
 package org.robots.robots_fx;
 
 import javafx.animation.AnimationTimer;
-import javafx.beans.Observable;
-import javafx.beans.binding.Bindings;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.AnchorPane;
-import javafx.util.StringConverter;
 import org.robots.robots_fx.robot.Robot;
 import org.robots.robots_fx.robot.RobotView;
-
-import java.util.List;
 
 public class RobotsController {
     public static final int X_TRANSITION = 500,
@@ -78,16 +71,16 @@ public class RobotsController {
             robotViews[i] = new RobotView();
             pane.getChildren().add(robotViews[i]);
             int finalI = i;
-            robotViews[i].xProperty().addListener((observable, oldValue, newValue) -> robotViews[finalI].changeTriangle(pane.getChildren()));
-            robotViews[i].yProperty().addListener((observable, oldValue, newValue) -> robotViews[finalI].changeTriangle(pane.getChildren()));
-            robotViews[i].directionProperty.addListener((observable, oldValue, newValue) -> robotViews[finalI].changeTriangle(pane.getChildren()));
+            robotViews[i].xProperty().addListener((_, _, _) -> robotViews[finalI].changeTriangle(pane.getChildren()));
+            robotViews[i].yProperty().addListener((_, _, _) -> robotViews[finalI].changeTriangle(pane.getChildren()));
+            robotViews[i].directionProperty.addListener((_, _, _) -> robotViews[finalI].changeTriangle(pane.getChildren()));
             robotViews[i].xProperty().bind(robots[i].xProperty().multiply(STEP).add(X_TRANSITION));
             robotViews[i].yProperty().bind(robots[i].yProperty().multiply(-1).multiply(STEP).add(Y_TRANSITION));
             robotViews[i].directionProperty.bind(robots[i].getDirectionProperty());
             labelFPS.textProperty().bind(FPSSlider.valueProperty().asString().concat(" FPS"));
         }
         FPSSlider.setValue(3);
-        FPSSlider.valueProperty().addListener((obs, oldval, newVal) ->
+        FPSSlider.valueProperty().addListener((_, _, newVal) ->
                 FPSSlider.setValue(newVal.intValue()));
     }
 }

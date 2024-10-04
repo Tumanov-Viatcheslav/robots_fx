@@ -5,7 +5,6 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.scene.shape.Rectangle;
 
 import java.io.*;
 import java.security.InvalidParameterException;
@@ -15,9 +14,9 @@ import java.util.List;
 import java.util.Queue;
 
 public class Robot {
-    private IntegerProperty x = new SimpleIntegerProperty();
-    private IntegerProperty y = new SimpleIntegerProperty();
-    private Property<Direction> directionProperty = new SimpleObjectProperty<>(Direction.NORTH);
+    private final IntegerProperty x = new SimpleIntegerProperty();
+    private final IntegerProperty y = new SimpleIntegerProperty();
+    private final Property<Direction> directionProperty = new SimpleObjectProperty<>(Direction.NORTH);
     private final Queue<Action> commandsToDo = new LinkedList<>();
 
     public Robot() {
